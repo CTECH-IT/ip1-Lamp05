@@ -1,9 +1,6 @@
-let canvas = document.getElementById("myCanvas");
-let ctx = canvas.getContext("2d");
-
-let background = new Image();
-background.src = "https://imgur.com/a/psIxp2X";
-
-background.onload = function(){
-    ctx.drawImage(background,0,0);   
-}
+window.onload = function() {
+    var canvas = document.getElementById("myCanvas");
+    var ctx = canvas.getContext("2d");
+    var img = document.getElementById("bg");
+    ctx.drawImage(img, 0, 0);
+  };
