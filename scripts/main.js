@@ -1,69 +1,68 @@
-window.onload = function() { //loads my beautifully drawn background image
-    let canvas = document.getElementById("bCanvas");
-    let ctx = canvas.getContext("2d");
-    let img = document.getElementById("bg");
-    ctx.drawImage(img, 0, 0);
-
-
-let canvas = document.getElementById("mCanvas");
+let canvas = document.getElementById("myCanvas");
 let ctx = canvas.getContext("2d");
 
-let down = false;
-let up = false;
-let right = false;
-let left = false;
+let canvasHeight = 600
+let canvasWidth = 800
 
-//just some properties for the player
-let px = 50;
-let py = 320;
-let speed = 10;
-let sideLength = 80;
+let speed = 5
 
-function erase() {
-    context.fillRect(0, 0, 800, 600);
+let rightPressed = false;
+let leftPressed = false;
+let upPressed = false;
+let downPressed = false;
+
+let score = 0;
+
+let lives = 3;
+
+//draws the rectangle the player controls
+function drawRectangle() {
+  ctx.beginPath();
+  ctx.rect(canvas.width / 2 - 40, canvas.height - 80, 80, 80);
+  ctx.fillStyle = "#483d8b";
+  ctx.fill();
+  ctx.closePath();
 }
 
-// Listen for keydown events
-canvas.addEventListener('keydown', function(event) {
-    event.preventDefault();
-    console.log(event.key, event.keyCode);
-    if (event.keyCode === 40) { // DOWN
-      down = true;
-    }
-    if (event.keyCode === 38) { // UP
-      up = true;
-    }
-    if (event.keyCode === 37) { // LEFT
-      left = true;
-    }
-    if (event.keyCode === 39) { // RIGHT
-      right = true;
-    }
-  });
+function drawCubes() {
   
-  // Listen for keyup events
-  canvas.addEventListener('keyup', function(event) {
-    event.preventDefault();
-    console.log(event.key, event.keyCode);
-    if (event.keyCode === 40) { // DOWN
-      down = false;
-    }
-    if (event.keyCode === 38) { // UP
-      up = false;
-    }
-    if (event.keyCode === 37) { // LEFT
-      left = false;
-    }
-    if (event.keyCode === 39) { // RIGHT
-      right = false;
-    }
-  });
+}
 
-//draw loop
+//draws how many blocks the player has blocked from reaching the bottom
+function drawScore() {
+  ctx.font = "20px Monospace";
+  ctx.fillStyle = "#2f4f4f";
+  ctx.fillText("SCORE:" + score, 10, 20);
+}
+
+//draws how many lives the player has left
+function drawLives() {
+  ctx.font = "20px Monospace";
+  ctx.fillStyle = "#2f4f4f";
+  ctx.fillText("LIVES:" + lives, 10, 50)
+}
+
+//draws what level the player is on
+function drawLevel() {
+  ctx.font = "20px Monospace";
+  ctx.fillStyle = "#2f4f4f";
+  ctx.fillText("LEVEL:" + level, 10, 70)
+}
+
+//the main draw function
 function draw() {
-    erase();
-    // drawing the player
-    context.fillStyle = '#FF0000';
-    ctx.fillRect(px, py, sideLength, sideLength)
+  
+  //clears the canvas so that objects don't leave trails
+  ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
-}}
+  drawRectangle();
+
+  drawScore();
+
+  drawLives();
+
+  drawLevel();
+
+}
+
+let interval = setInterval(draw, 10);
