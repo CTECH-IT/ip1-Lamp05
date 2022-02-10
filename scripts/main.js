@@ -5,14 +5,18 @@ let canvasHeight = 600
 let canvasWidth = 800
 
 //player starting points
-let rectX = (canvas.width - 40) / 2;
+let rectX = (canvas.width - 80) / 2;
 let rectY = canvas.height - 80;
+
+//enemy starting points
+let cubeX = canvas.width / 2 - 10;
+let cubeY = 0;
 
 //player speed
 let rectSpeed = 5;
 
 //enemie speed
-let cubeSpeed = 5;
+let cubeSpeed = 2.5;
 
 let rightPressed = false;
 let leftPressed = false;
@@ -32,13 +36,15 @@ function drawRectangle() {
   ctx.closePath();
 }
 
-//draws the enemie the player has to destroy
+//draws the enemy the player has to destroy
 function drawCube() {
   ctx.beginPath();
-  ctx.rect(canvas.width / 2 - 10, 0, 20, 20);
-  ctx.fillStyle = "#2f4f4f";
+  ctx.rect(cubeX, cubeY, 20, 20);
+  ctx.fillStyle = "#98fb98";
   ctx.fill();
   ctx.closePath();
+
+  cubeY += cubeSpeed
 }
 
 //draws how many blocks the player has blocked from reaching the bottom
