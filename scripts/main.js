@@ -4,8 +4,12 @@ let ctx = canvas.getContext("2d");
 let canvasHeight = 600
 let canvasWidth = 800
 
+//player starting points
+let rectX = (canvas.width - 40) / 2;
+let rectY = canvas.height - 80;
+
 //player speed
-let speed = 5
+let rectSpeed = 5;
 
 //enemie speed
 let cubeSpeed = 5;
@@ -22,7 +26,7 @@ let lives = 3;
 //draws the rectangle the player controls
 function drawRectangle() {
   ctx.beginPath();
-  ctx.rect(canvas.width / 2 - 40, canvas.height - 80, 80, 80);
+  ctx.rect(rectX, rectY, 80, 80);
   ctx.fillStyle = "#483d8b";
   ctx.fill();
   ctx.closePath();
@@ -35,12 +39,6 @@ function drawCube() {
   ctx.fillStyle = "#2f4f4f";
   ctx.fill();
   ctx.closePath();
-}
-
-//moves the cube to a random location
-function moveCube() {
-targetX = Math.round(Math.random() * canvas.width - targetLength);
-targetY = Math.round(Math.random() * canvas.height - targetLength);
 }
 
 //draws how many blocks the player has blocked from reaching the bottom
@@ -66,9 +64,35 @@ function drawLevel() {
 
 //the main draw function
 function draw() {
-  
+
   //clears the canvas so that objects don't leave trails
   ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+
+  //rect controls
+  if (rightPressed) {
+    rectX += rectSpeed;
+    if (rectX + 80 > canvas.width) {
+      rectX = canvas.width - 80
+    }
+  }
+  else if (leftPressed) {
+    rectX -= rectSpeed;
+    if (rectX < 0) {
+      rectX = 0;
+    }
+  }
+  if (downPressed) {
+    rectY += rectSpeed;
+    if (rectY + 80 > canvas.height) {
+      rectY = canvas.height -80
+    }
+  }
+  else if (upPressed) {
+    rectY -= rectSpeed;
+    if (rectY < 0) {
+      rectY = 0;
+    }
+  }
 
   drawRectangle();
 
@@ -77,9 +101,40 @@ function draw() {
   drawScore();
 
   drawLives();
-
-  drawLevel();
-
 }
+
+//checks whether keys are pushed
+function keyDownHandler(e) {
+  if (e.key == "Right" || e.key == "ArrowRight") {
+    rightPressed = true;
+  }
+  else if (e.key == "Left" || e.key == "ArrowLeft") {
+    leftPressed = true;
+  }
+  if (e.key == "up" || e.key == "ArrowUp") {
+    upPressed = true;
+  }
+  else if (e.key == "down" || e.key == "ArrowDown") {
+    downPressed = true;
+  }
+}
+
+function keyUpHandler(e) {
+  if (e.key == "Right" || e.key == "ArrowRight") {
+    rightPressed = false;
+  }
+  else if (e.key == "Left" || e.key == "ArrowLeft") {
+    leftPressed = false;
+  }
+  if (e.key == "up" || e.key == "ArrowUp") {
+    upPressed = false;
+  }
+  else if (e.key == "down" || e.key == "ArrowDown") {
+    downPressed = false;
+  }
+}
+
+document.addEventListener("keydown", keyDownHandler, false);
+document.addEventListener("keyup", keyUpHandler, false);
 
 let interval = setInterval(draw, 10);
