@@ -5,8 +5,8 @@ let canvasHeight = 600
 let canvasWidth = 800
 
 //player starting points
-let rectX = (canvas.width - 80) / 2;
-let rectY = canvas.height - 80;
+let rectX = canvas.width / 2 - 10;
+let rectY = canvas.height - 20;
 
 //enemy starting points
 let cubeX = canvas.width / 2 - 10;
@@ -30,7 +30,7 @@ let lives = 3;
 //draws the rectangle the player controls
 function drawRectangle() {
   ctx.beginPath();
-  ctx.rect(rectX, rectY, 80, 80);
+  ctx.rect(rectX, rectY, 20, 20);
   ctx.fillStyle = "#483d8b";
   ctx.fill();
   ctx.closePath();
@@ -77,8 +77,8 @@ function draw() {
   //rect controls
   if (rightPressed) {
     rectX += rectSpeed;
-    if (rectX + 80 > canvas.width) {
-      rectX = canvas.width - 80
+    if (rectX + 20 > canvas.width) {
+      rectX = canvas.width - 20
     }
   }
   else if (leftPressed) {
@@ -89,8 +89,8 @@ function draw() {
   }
   if (downPressed) {
     rectY += rectSpeed;
-    if (rectY + 80 > canvas.height) {
-      rectY = canvas.height -80
+    if (rectY + 20 > canvas.height) {
+      rectY = canvas.height -20
     }
   }
   else if (upPressed) {
