@@ -1,7 +1,7 @@
-var canvas = document.getElementById("myCanvas");
-var ctx = canvas.getContext("2d");
+let canvas = document.getElementById("myCanvas");
+let ctx = canvas.getContext("2d");
 
-var background = new Image();
+let background = new Image();
 background.src = "https://imgur.com/a/psIxp2X";
 
 background.onload = function(){
