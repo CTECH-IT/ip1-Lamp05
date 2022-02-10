@@ -4,12 +4,14 @@ let ctx = canvas.getContext("2d");
 let canvasHeight = 600
 let canvasWidth = 800
 
-//player starting points
-let rectX = canvas.width / 2 - 10;
-let rectY = canvas.height - 20;
+//player attributes
+let rectL = 20;
+let rectX = canvas.width / 2 - (rectL / 2);
+let rectY = canvas.height - rectL;
 
-//enemy starting points
-let cubeX = canvas.width / 2 - 10;
+//enemy attributes
+let cubeL = 20;
+let cubeX = canvas.width / 2 - (cubeL / 2);
 let cubeY = 0;
 
 //player speed
@@ -30,7 +32,7 @@ let lives = 3;
 //draws the rectangle the player controls
 function drawRectangle() {
   ctx.beginPath();
-  ctx.rect(rectX, rectY, 20, 20);
+  ctx.rect(rectX, rectY, rectL, rectL);
   ctx.fillStyle = "#483d8b";
   ctx.fill();
   ctx.closePath();
@@ -39,7 +41,7 @@ function drawRectangle() {
 //draws the enemy the player has to destroy
 function drawCube() {
   ctx.beginPath();
-  ctx.rect(cubeX, cubeY, 20, 20);
+  ctx.rect(cubeX, cubeY, cubeL, cubeL);
   ctx.fillStyle = "#98fb98";
   ctx.fill();
   ctx.closePath();
@@ -74,11 +76,11 @@ function draw() {
   //clears the canvas so that objects don't leave trails
   ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
-  //rect controls
+  //player controls, also checks if the player is out of bounds, if so then the player is blocked
   if (rightPressed) {
     rectX += rectSpeed;
     if (rectX + 20 > canvas.width) {
-      rectX = canvas.width - 20
+      rectX = canvas.width - rectL
     }
   }
   else if (leftPressed) {
@@ -90,7 +92,7 @@ function draw() {
   if (downPressed) {
     rectY += rectSpeed;
     if (rectY + 20 > canvas.height) {
-      rectY = canvas.height -20
+      rectY = canvas.height - rectL
     }
   }
   else if (upPressed) {
@@ -100,47 +102,60 @@ function draw() {
     }
   }
 
-  drawRectangle();
+    drawRectangle();
 
-  drawCube();
+    drawCube();
 
-  drawScore();
+    drawScore();
 
-  drawLives();
-}
+    drawLives();
 
-//checks whether keys are pushed
-function keyDownHandler(e) {
-  if (e.key == "Right" || e.key == "ArrowRight") {
-    rightPressed = true;
-  }
-  else if (e.key == "Left" || e.key == "ArrowLeft") {
-    leftPressed = true;
-  }
-  if (e.key == "up" || e.key == "ArrowUp") {
-    upPressed = true;
-  }
-  else if (e.key == "down" || e.key == "ArrowDown") {
-    downPressed = true;
-  }
-}
+    //collision between cube and player
+    if (cubeX < rectX + rectL &&
+      cubeX + cubeL > rectX &&
+      cubeY < rectY + rectL &&
+      cubeL + cubeY > rectY) {
+        score += 1;
+      }
 
-function keyUpHandler(e) {
-  if (e.key == "Right" || e.key == "ArrowRight") {
-    rightPressed = false;
+    //if the enemy reaches the bottom, 1 life is removed
+    if (cubeY == canvas.height) {
+      lives -= 1;
+    }
   }
-  else if (e.key == "Left" || e.key == "ArrowLeft") {
-    leftPressed = false;
-  }
-  if (e.key == "up" || e.key == "ArrowUp") {
-    upPressed = false;
-  }
-  else if (e.key == "down" || e.key == "ArrowDown") {
-    downPressed = false;
-  }
-}
 
-document.addEventListener("keydown", keyDownHandler, false);
-document.addEventListener("keyup", keyUpHandler, false);
+  //checks whether keys are pushed
+  function keyDownHandler(e) {
+    if (e.key == "Right" || e.key == "ArrowRight") {
+      rightPressed = true;
+    }
+    else if (e.key == "Left" || e.key == "ArrowLeft") {
+      leftPressed = true;
+    }
+    if (e.key == "up" || e.key == "ArrowUp") {
+      upPressed = true;
+    }
+    else if (e.key == "down" || e.key == "ArrowDown") {
+      downPressed = true;
+    }
+  }
 
-let interval = setInterval(draw, 10);
+  function keyUpHandler(e) {
+    if (e.key == "Right" || e.key == "ArrowRight") {
+      rightPressed = false;
+    }
+    else if (e.key == "Left" || e.key == "ArrowLeft") {
+      leftPressed = false;
+    }
+    if (e.key == "up" || e.key == "ArrowUp") {
+      upPressed = false;
+    }
+    else if (e.key == "down" || e.key == "ArrowDown") {
+      downPressed = false;
+    }
+  }
+
+  document.addEventListener("keydown", keyDownHandler, false);
+  document.addEventListener("keyup", keyUpHandler, false);
+
+  let interval = setInterval(draw, 10);
