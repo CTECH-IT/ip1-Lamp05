@@ -4,7 +4,11 @@ let ctx = canvas.getContext("2d");
 let canvasHeight = 600
 let canvasWidth = 800
 
+//player speed
 let speed = 5
+
+//enemie speed
+let cubeSpeed = 5;
 
 let rightPressed = false;
 let leftPressed = false;
@@ -24,8 +28,19 @@ function drawRectangle() {
   ctx.closePath();
 }
 
-function drawCubes() {
-  
+//draws the enemie the player has to destroy
+function drawCube() {
+  ctx.beginPath();
+  ctx.rect(canvas.width / 2 - 10, 0, 20, 20);
+  ctx.fillStyle = "#2f4f4f";
+  ctx.fill();
+  ctx.closePath();
+}
+
+//moves the cube to a random location
+function moveCube() {
+targetX = Math.round(Math.random() * canvas.width - targetLength);
+targetY = Math.round(Math.random() * canvas.height - targetLength);
 }
 
 //draws how many blocks the player has blocked from reaching the bottom
@@ -56,6 +71,8 @@ function draw() {
   ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
   drawRectangle();
+
+  drawCube();
 
   drawScore();
 
