@@ -137,17 +137,17 @@ function draw() {
     cubeL + cubeY > rectY) {
     score += 10;
     level += 1;
-    cubeSpeed += .8;
+    cubeSpeed += .9;
     cubeY = 0;
     cubeX = (Math.random() * canvas.width - cubeL);
   }
 
-  if //collision between player and power up. If the player touches the power up, they get 5 points and the cubeSpeed is reset to 1
+  if //collision between player and power up. If the player touches the power up, they get an extra life, but the score reduces by five
     (powX < rectX + rectL &&
     powX + powL > rectX &&
     powY < rectY + rectL &&
     powL + powY > rectY) {
-    score += 5;
+    score -= 5;
     lives += 1;
     powX = (Math.random() * canvas.width - powL);
     powY = (Math.random() * canvas.height - powL);
